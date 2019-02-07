@@ -1,2 +1,2 @@
 # python-learning
-Repository for example while learning Python
+Repository for examples created while learning Python
