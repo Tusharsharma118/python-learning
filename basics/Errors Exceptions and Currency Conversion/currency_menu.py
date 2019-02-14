@@ -9,7 +9,7 @@ class Currency:
         self.amount = amount
 
     def __repr__(self):
-        return repr(self.currency,self.amount)
+        return repr((self.currency,self.amount))
 
     def __add__(self, other):
         if type(self) != type(other):
@@ -21,13 +21,35 @@ class Currency:
             raise CurrencyException('Currency Types do not Match!')
         return Currency(currency, final_amount)
 
+
 class FakeCurrency: pass
 
 
-dollar = Currency('USD', 50)
+class CurrencyConverter():
+    def __init__(self, currency_from : str, currency_to : str, conversion_rate):
+        self.convert_to = currency_to;
+        self.convert_from = currency_from;
+        self.conversion_rate = conversion_rate
 
-rupee = Currency('INR', 60)
+    def convert_currency(self, amount, currency_from: str, currency_to : str):
+        # if type(currency_from) != type(currency_to):
+        #    raise CurrencyException('Fake Curency!')
+        if self.convert_from != currency_from or self.convert_to != currency_to:
+            raise CurrencyException('Icompatible Currency Conversion!')
+        else:
+            return Currency(self.convert_to,(amount * self.conversion_rate))
 
-ressult = dollar + FakeCurrency()
 
-print(f""" Final Currency: {ressult.currency} \n Final Amount: {ressult.amount}""")
+dollar: Currency = Currency('USD', 50)
+
+rupee : Currency = Currency('INR', 60)
+
+# result = dollar + FakeCurrency()
+
+usd_to_inr = CurrencyConverter('USD','INR', 71)
+
+# print(f""" Final Currency: {result.currency} \n Final Amount: {ressult.amount}""")
+
+curr = usd_to_inr.convert_currency(dollar.amount,dollar.currency,rupee.currency)
+
+print(f"""  Converting dollars { dollar } to inr : {curr}   """)
